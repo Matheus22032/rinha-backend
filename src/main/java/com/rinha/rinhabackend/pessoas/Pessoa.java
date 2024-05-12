@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "pessoa",indexes = @Index(name = "idx_pessoa_apelido", columnList = "apelido"))
 public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(name = "apelido", nullable = false, length = 32, unique = true)
     private String apelido;
     @Column(name = "nome", nullable = false, length = 100)
@@ -25,8 +27,17 @@ public class Pessoa {
     @Column(name = "stack", columnDefinition = "text")
     private List<String> stack;
 
+    @Column(name = "searchable", columnDefinition = "text")
+    private String searchable;
+
     public Pessoa(){
 
+    }
+    public Pessoa(String apelido, String nome, String nascimento, List<String> stack) {
+        this.apelido = apelido;
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.stack = stack;
     }
     public boolean validarPessoa(){
         var apelidoValido = this.apelido != null && !this.apelido.isEmpty() && this.apelido.length() < 32;
@@ -48,7 +59,6 @@ public class Pessoa {
             return false;
         }
     }
-
 
     public UUID getId() {
         return id;

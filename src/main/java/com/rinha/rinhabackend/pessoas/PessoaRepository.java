@@ -10,6 +10,7 @@ import java.util.UUID;
 public interface PessoaRepository extends CrudRepository<Pessoa, UUID> {
 
     boolean existsByApelido(String apelido);
-    @Query("SELECT p FROM Pessoa p WHERE lower(p.apelido) LIKE %:termo% OR lower(p.nome) LIKE %:termo% OR lower(p.nascimento) LIKE %:termo% OR lower(p.stack) LIKE %:termo%")
+
+    @Query("SELECT p FROM Pessoa p WHERE p.searchable LIKE %:termo%")
     Iterable<Pessoa> findByCustomSearch(@Param("termo") String termo);
 }
